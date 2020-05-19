@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2020???5???18??? ??????4:51:22 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+	<class name="model.Forum" table="forum">
+		<id name="id" type="java.lang.Integer">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<property name="title" type="java.lang.String">
+			<column name="title" />
+		</property>
+		<many-to-one name="owner" class="model.User" fetch="join"
+			lazy="false">
+			<column name="owner" />
+		</many-to-one>
+		<set name="users" table="subscriptions">
+			<key>
+				<column name="id_forum" />
+			</key>
+			<many-to-many class="model.User" column="id_user" />
+		</set>			
+		<property name="description" type="java.lang.String">
+			<column name="description" />
+		</property>
+
+
+	</class>
+</hibernate-mapping>
