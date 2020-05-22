@@ -7,6 +7,11 @@ import java.util.List;
 public class Message {
 	private Integer id;
 
+	private String content;
+	private Date datePublication;
+	private User editor;
+	private Forum destination;
+
 	public Integer getId() {
 		return id;
 	}
@@ -14,11 +19,6 @@ public class Message {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	private String content;
-	private Date datePublication;
-	private User editor;
-	private Forum destination;
 
 	public Forum getDestination() {
 		return destination;

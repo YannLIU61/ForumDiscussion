@@ -242,15 +242,17 @@ public class User {
 	 * @param lname
 	 * @return
 	 */
-	public static User FindByLastAndFirstName(String fname, String lname) {
-		User user = null;
+	public static List<User> FindByLastAndFirstName(String fname, String lname) {
+		List<User> lst = null;
 		Session session = MyConnectionClass.getSessionFactory().openSession();
 		Transaction tx = null;
 		String hql = "from User u where u.firstName=:fname and u.lastName=:lname";
 		try {
 			tx = session.beginTransaction();
 			Query query = session.createQuery(hql);
-			user = (User) query.setParameter("fname", fname).setParameter("lname", lname).uniqueResult();
+			List<User> users = query.setParameter("fname", fname).setParameter("lname", lname).list();
+			lst = (users.size() == 0) ? null : users;
+			System.out.println("-----------User found:   " + users.size());
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
@@ -259,7 +261,7 @@ public class User {
 		} finally {
 			session.close();
 		}
-		return user;
+		return lst;
 	}
 
 	/**
@@ -415,14 +417,10 @@ public class User {
 			// 2.Les messages persistent avec un utilisateur anonyme
 			// Creer un utilisateur anonyme, s'il exist pas dans la table
 			if (FindByLastAndFirstName(_anonyme, _anonyme) == null) {
-				String sql = "INSERT INTO `db_sr03`.`user`( `fname`, `lname`, `login`) VALUES ('" + _anonyme + "','"
-						+ _anonyme + "','" + _anonyme + "')";
-				Query query = session.createSQLQuery(sql);
-				query.executeUpdate();
+				createAnonymeUser();
 			}
 			// Les messages persistent avec un utilisateur anonyme
-			User anonymeUser = FindByLastAndFirstName(_anonyme, _anonyme);
-			System.out.println("Anooooooo id " + anonymeUser.getId());
+			User anonymeUser = FindByLastAndFirstName(_anonyme, _anonyme).get(0);
 			String update = "UPDATE `db_sr03`.`message` SET `editor`='" + anonymeUser.getId() + "' WHERE editor='"
 					+ userId + "'";
 			Query query2 = session.createSQLQuery(update);
@@ -444,5 +442,30 @@ public class User {
 		}
 		return success;
 	}
+
+	public static void createAnonymeUser() {
+		Session session = MyConnectionClass.getSessionFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			User anonyme = new User();
+			anonyme.setFirstName(_anonyme);
+			anonyme.setLastName(_anonyme);
+			anonyme.setLogin(_anonyme);
+
+			session.save(anonyme);
+
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	/*
+	 * 
+	 */
 
 }

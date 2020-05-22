@@ -81,6 +81,10 @@ public class Validation extends HttpServlet {
 		String login = request.getParameter("User email");
 		String gender = request.getParameter("gender");
 		String password = request.getParameter("User password");
+		User newUser = new User(lastName, firstName, login, gender, password);
+		if (request.getParameter("role") != null) {
+			newUser.setRole(request.getParameter("role"));
+		}
 
 		if (request.getParameter("validator") != null) {// des doublons ont été détectés et l'utilisateur à
 														// valider son choix
@@ -96,24 +100,19 @@ public class Validation extends HttpServlet {
 		} else if (User.FindByLastAndFirstName(firstName, lastName) != null) {
 			valid = false;
 			request.setAttribute("exist_msg", "Utilisateur exist déjà, voulez vous l'ajouter encore?");
-			User newUser = new User(lastName, firstName, login, gender, password);
-			if (request.getParameter("role") != null) {
-				newUser.setRole(request.getParameter("role"));
-			}
 			request.setAttribute("newUser", newUser);
 			RequestDispatcher rd = request.getRequestDispatcher("/NouveauUtilisateur.jsp");// abandonner
 																							// l'insertion
 			rd.forward(request, response);
 		}
-		/*
-		 * Check mail
-		 */
 		if (User.FindByLogin(login)) {
 			valid = false;
 			request.setAttribute("error_msg", "Mail déjà utilisé, veuillez vous changer!!!");
+			request.setAttribute("newUser", newUser);
 			RequestDispatcher rd = request.getRequestDispatcher("/NouveauUtilisateur.jsp");
 			rd.forward(request, response);
 		}
+
 		if (valid) {
 			RequestDispatcher rd = request.getRequestDispatcher("UserManager?action=ajouter");
 			rd.forward(request, response);

@@ -152,25 +152,7 @@ public class Forum {
 		return lst;
 	}
 
-	/*
-	 * ajoute un nouveau message sur le forum
-	 */
-	public static void addMessage2(String content, User editor, int destination)
-			throws ClassNotFoundException, IOException, SQLException {
 
-		Connection conn = MyConnectionClass.getInstance();
-		String sql = "INSERT INTO `db_sr03`.`message`(`content`, `editor`, `destination`, `datePublication`) VALUES (?,?,?,?)";
-
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, content);
-//		pstmt.setInt(2, editor.getId());
-		pstmt.setInt(3, destination);
-		Date date = new Date();
-		pstmt.setDate(4, new java.sql.Date(date.getTime()));
-
-		pstmt.execute();
-
-	}
 
 	/**
 	 * Publisher message
