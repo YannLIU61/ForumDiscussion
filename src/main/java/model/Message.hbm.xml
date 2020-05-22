@@ -14,11 +14,11 @@
 		<property name="datePublication" type="java.util.Date">
 			<column name="datePublication" />
 		</property>
-		<many-to-one name="destination" class="model.Forum"
+		<!-- <many-to-one name="destination" class="model.Forum"
 			column="id" insert="false" update="false" lazy="false">
 		</many-to-one>
 		<many-to-one name="editor" class="model.User" column="id"
 			insert="false" update="false" lazy="false">
-		</many-to-one>
+		</many-to-one> -->
 	</class>
 </hibernate-mapping>
