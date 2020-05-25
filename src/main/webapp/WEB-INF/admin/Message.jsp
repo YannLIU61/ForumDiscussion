@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,14 +7,16 @@
 </head>
 <body>
 	<div class="container">
-	<br>
+		<br>
 		<h1>Fil de discussion:</h1>
 		<c:if test="${empty msg_lst }">
 			<div class="alert alert-danger" role="alert">Aucun message pour
 				l'instant</div>
 		</c:if>
 		<br>
-		<table class="table table-striped">
+		<table class="table table-striped table-bordered" id="datatable"
+			style="width: 100%"
+		>
 			<thead>
 				<tr>
 					<th scope="col">DataDePublication</th>

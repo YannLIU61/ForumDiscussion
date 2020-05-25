@@ -22,7 +22,7 @@
 			<c:remove var="delete_msg" />
 		</c:if>
 		<br>
-		<table class="table table-striped table-dark">
+		<table  class="table table-striped table-dark">
 			<thead>
 				<tr>
 					<th scope="col">Title</th>
